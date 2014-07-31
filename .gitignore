@@ -81,3 +81,6 @@ cscope.*
 
 # spl ais files
 /spl/*.ais
+
+# imx build
+imxcfg.imx
