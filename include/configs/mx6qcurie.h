@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2012-2014 Freescale Semiconductor, Inc.
+ * Copyright (C) 2014 Shanghai Zhixing Information Technology Co.Ltd
  *
- * Configuration settings for the Freescale i.MX6Q SabreSD board.
+ * Configuration settings for the WindSolve i.MX6Q Curie board.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -14,15 +14,15 @@
  * GNU General Public License for more details.
  */
 
-#ifndef __MX6QSABRESD_CONFIG_H
-#define __MX6QSABRESD_CONFIG_H
+#ifndef __MX6QCURIE_CONFIG_H
+#define __MX6QCURIE_CONFIG_H
 
 #define CONFIG_MACH_TYPE	3980
 #define CONFIG_MXC_UART_BASE	UART1_BASE
 #define CONFIG_CONSOLE_DEV		"ttymxc0"
 #define CONFIG_MMCROOT			"/dev/mmcblk0p2"
 
-#include "mx6qsabre_common.h"
+#include "mx6qcurie_common.h"
 #include <asm/arch/imx-regs.h>
 #include <asm/imx-common/gpio.h>
 
@@ -38,8 +38,8 @@
 #define CONFIG_MXC_USB_FLAGS   0
 #define CONFIG_USB_MAX_CONTROLLER_COUNT 1 /* Enabled USB controller number */
 
-#define CONFIG_SYS_FSL_USDHC_NUM	3
-#define CONFIG_SYS_MMC_ENV_DEV		1	/* SDHC3 */
+#define CONFIG_SYS_FSL_USDHC_NUM	2
+#define CONFIG_SYS_MMC_ENV_DEV		1	/* SDHC4 */
 #define CONFIG_SYS_MMC_ENV_PART		0	/* user partition */
 
 #ifdef CONFIG_SYS_USE_SPINOR
