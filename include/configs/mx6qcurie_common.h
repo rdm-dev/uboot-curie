@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2012-2014 Freescale Semiconductor, Inc.
+ * Copyright (C) 2014 Shanghai Zhixing Information Technology Co.Ltd
  *
- * Configuration settings for the Freescale i.MX6Q SabreSD board.
+ * Configuration settings for the WindSolve i.MX6Q Curie board.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -14,8 +14,8 @@
  * GNU General Public License for more details.
  */
 
-#ifndef __MX6QSABRE_COMMON_CONFIG_H
-#define __MX6QSABRE_COMMON_CONFIG_H
+#ifndef __MX6QCURIE_COMMON_CONFIG_H
+#define __MX6QCURIE_COMMON_CONFIG_H
 
 #define CONFIG_MX6
 
@@ -88,7 +88,7 @@
 #define CONFIG_FEC_MXC_PHYADDR		1
 
 #define CONFIG_PHYLIB
-#define CONFIG_PHY_ATHEROS
+#define CONFIG_PHY_REALTEK
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
@@ -401,7 +401,7 @@
 #define CONFIG_CMD_I2C
 #define CONFIG_HARD_I2C         1
 #define CONFIG_I2C_MXC          1
-#define CONFIG_SYS_I2C_BASE             I2C2_BASE_ADDR
+#define CONFIG_SYS_I2C_BASE             I2C3_BASE_ADDR
 #define CONFIG_SYS_I2C_SPEED            100000
 #define CONFIG_SYS_I2C_SLAVE            0x8
 
@@ -425,8 +425,4 @@
 #endif
 #define CONFIG_IMX_HDMI
 
-#if defined(CONFIG_ANDROID_SUPPORT)
-#include "mx6qsabreandroid_common.h"
-#endif
-
-#endif                         /* __MX6QSABRE_COMMON_CONFIG_H */
+#endif                         /* __MX6QCURIE_COMMON_CONFIG_H */
