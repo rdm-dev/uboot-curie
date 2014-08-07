@@ -384,11 +384,12 @@ int mmc_get_env_devno(void)
 	/* BOOT_CFG2[3] and BOOT_CFG2[4] */
 	dev_no = (soc_sbmr & 0x00001800) >> 11;
 
-	/* need ubstract 1 to map to the mmc device id
+	/* need ubstract 2 to map to the mmc device id
+	 * since we are missing two USDHC for our board
 	 * see the comments in board_mmc_init function
 	 */
 
-	dev_no--;
+	dev_no -= 2;
 
 	return dev_no;
 }
