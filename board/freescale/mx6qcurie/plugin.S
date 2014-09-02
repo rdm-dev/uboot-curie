@@ -18,7 +18,7 @@
 #include <config.h>
 
 /* DDR script */
-.macro imx6dqsabresd_ddr_setting
+.macro imx6dqcurie_ddr_setting
 	ldr r0, =IOMUXC_BASE_ADDR
 	ldr r1, =0x000c0000
 	str r1, [r0, #0x798]
@@ -86,24 +86,24 @@
 	str r2, [r1, #0x80c]
 	str r2, [r1, #0x810]
 
-	ldr r2, =0x43270338
+	ldr r2, =0x03200338
 	str r2, [r0, #0x83c]
-	ldr r2, =0x03200314
+	ldr r2, =0x0324031C
 	str r2, [r0, #0x840]
 
-	ldr r2, =0x431A032F
+	ldr r2, =0x03340340
 	str r2, [r1, #0x83c]
-	ldr r2, =0x03200263
+	ldr r2, =0x032C026C
 	str r2, [r1, #0x840]
 
-	ldr r2, =0x4B434748
+	ldr r2, =0x3A2E3038
 	str r2, [r0, #0x848]
-	ldr r2, =0x4445404C
+	ldr r2, =0x342A2A44
 	str r2, [r1, #0x848]
 
-	ldr r2, =0x38444542
+	ldr r2, =0x2C2A3434
 	str r2, [r0, #0x850]
-	ldr r2, =0x4935493A
+	ldr r2, =0x3A2A3C34
 	str r2, [r1, #0x850]
 
 	ldr r2, =0x33333333
@@ -171,7 +171,7 @@
 	str r2, [r0, #0x01c]
 .endm
 
-.macro imx6dlsabresd_ddr_setting
+.macro imx6dlcurie_ddr_setting
 	ldr r0, =IOMUXC_BASE_ADDR
 	ldr r1, =0x000c0000
 	str r1, [r0, #0x774]
@@ -324,7 +324,7 @@
 	str r2, [r0, #0x01c]
 .endm
 
-.macro imx6solosabresd_ddr_setting
+.macro imx6solocurie_ddr_setting
 	ldr r0, =IOMUXC_BASE_ADDR
 	ldr r1, =0x000c0000
 	str r1, [r0, #0x774]
@@ -476,11 +476,11 @@
 
 .macro imx6_ddr_setting
 #if defined (CONFIG_MX6SOLO)
-	imx6solosabresd_ddr_setting
+	imx6solocurie_ddr_setting
 #elif defined (CONFIG_MX6DL)
-	imx6dlsabresd_ddr_setting
+	imx6dlcurie_ddr_setting
 #elif defined (CONFIG_MX6Q)
-	imx6dqsabresd_ddr_setting
+	imx6dqcurie_ddr_setting
 #else
 	#error "SOC not configured"
 #endif
