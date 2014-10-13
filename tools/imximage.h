@@ -34,8 +34,8 @@
  * DCD tag and write tag 2 bytes
  * The remaining 1755 bytes can hold up to 219 DCD entries
  */
-#define MAX_PLUGIN_CODE_SIZE (16*1024)
-#define PLUGIN_IRAM_COPY_SIZE (16*1024)
+#define MAX_PLUGIN_CODE_SIZE (32*1024)
+#define PLUGIN_IRAM_COPY_SIZE (32*1024)
 #define CSF_ALIGN_SIZE 0x1000
 #define CSF_DATA_SIZE 0x2000
 #define MAX_HW_CFG_SIZE_V1 60  /* Max number of registers imx can set for v1 */

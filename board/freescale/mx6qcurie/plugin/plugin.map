@@ -1,0 +1,672 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x000000000090742c 0x000000000000f000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000000100                FIQ_STACK_SIZE = 0x100
+                0x0000000000000100                IRQ_STACK_SIZE = 0x100
+                0x0000000000000100                ABT_STACK_SIZE = 0x100
+                0x0000000000000100                UND_STACK_SIZE = 0x100
+                0x0000000000002000                SVC_STACK_SIZE = 0x2000
+                0x000000000000f000                OCRAM_SIZE_TO_USE = 0xf000
+                0x0000000000002400                STACK_SIZE = ((((FIQ_STACK_SIZE + IRQ_STACK_SIZE) + ABT_STACK_SIZE) + UND_STACK_SIZE) + SVC_STACK_SIZE)
+
+.init           0x000000000090742c        0x4
+ *(.vectors)
+                0x000000000090742c                . = ALIGN (0x4)
+ *(.init)
+ .init          0x000000000090742c        0x4 plugin/plugin_entry.o
+                0x000000000090742c                plugin_entry
+                0x0000000000907430                . = ALIGN (0x4)
+
+.data           0x0000000000907430       0x80
+                0x0000000000907430                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x0000000000907430        0x0 plugin/plugin_entry.o
+ .data          0x0000000000907430       0x20 plugin/plugin_main.o
+ .data          0x0000000000907450        0x0 plugin/plugin_data.o
+ .data          0x0000000000907450        0x0 plugin/crc32.o
+ .data          0x0000000000907450        0x0 plugin/_divsi3.o
+ .data          0x0000000000907450        0x0 plugin/_udivsi3.o
+ .data          0x0000000000907450        0x0 plugin/div0.o
+ .data          0x0000000000907450        0x0 plugin/cortexA9.o
+ .data          0x0000000000907450        0x0 plugin/armv7_cache.o
+ .data          0x0000000000907450        0x0 plugin/ccm_pll.o
+ .data          0x0000000000907450        0x4 plugin/hardware_modules.o
+                0x0000000000907450                g_system_timer_port
+ .data          0x0000000000907454        0x0 plugin/uart_iomux_config.o
+ .data          0x0000000000907454        0x0 plugin/uart1_iomux_config.o
+ .data          0x0000000000907454        0x0 plugin/usdhc_iomux_config.o
+ .data          0x0000000000907454        0x0 plugin/usdhc4_iomux_config.o
+ .data          0x0000000000907454        0x0 plugin/board_usdhc.o
+ .data          0x0000000000907454        0x0 plugin/timer.o
+ .data          0x0000000000907454        0x0 plugin/epit.o
+ .data          0x0000000000907454        0x0 plugin/imx_uart.o
+ .data          0x0000000000907454       0x58 plugin/usdhc.o
+                0x0000000000907454                card_detect_test_en
+                0x0000000000907458                write_protect_test_en
+                0x000000000090745c                usdhc_device
+ .data          0x00000000009074ac        0x0 plugin/usdhc_host.o
+ .data          0x00000000009074ac        0x4 plugin/usdhc_mmc.o
+ .data          0x00000000009074b0        0x0 plugin/xprintf.o
+ .data          0x00000000009074b0        0x0 plugin/plugin.o
+                0x00000000009074b0                . = ALIGN (0x4)
+                0x00000000009074b0                edata = .
+                0x00000000009074b0                _edata = .
+                0x00000000009074b0                PROVIDE (__data_end, .)
+
+.igot.plt       0x00000000009074b0        0x0
+ .igot.plt      0x0000000000000000        0x0 plugin/plugin_entry.o
+
+.bss            0x00000000009074b0      0x620
+                0x00000000009074b0                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x00000000009074b0        0x0 plugin/plugin_entry.o
+ .bss           0x00000000009074b0      0x400 plugin/plugin_main.o
+                0x00000000009074b0                data
+ .bss           0x00000000009078b0        0x0 plugin/plugin_data.o
+ .bss           0x00000000009078b0        0x0 plugin/crc32.o
+ .bss           0x00000000009078b0        0x0 plugin/_divsi3.o
+ .bss           0x00000000009078b0        0x0 plugin/_udivsi3.o
+ .bss           0x00000000009078b0        0x0 plugin/div0.o
+ .bss           0x00000000009078b0        0x0 plugin/cortexA9.o
+ .bss           0x00000000009078b0        0x0 plugin/armv7_cache.o
+ .bss           0x00000000009078b0        0x0 plugin/ccm_pll.o
+ .bss           0x00000000009078b0        0x0 plugin/hardware_modules.o
+ .bss           0x00000000009078b0        0x0 plugin/uart_iomux_config.o
+ .bss           0x00000000009078b0        0x0 plugin/uart1_iomux_config.o
+ .bss           0x00000000009078b0        0x0 plugin/usdhc_iomux_config.o
+ .bss           0x00000000009078b0        0x0 plugin/usdhc4_iomux_config.o
+ .bss           0x00000000009078b0        0x0 plugin/board_usdhc.o
+ .bss           0x00000000009078b0        0x4 plugin/timer.o
+                0x00000000009078b0                g_microsecondTimerMultiple
+ .bss           0x00000000009078b4        0x0 plugin/epit.o
+ .bss           0x00000000009078b4        0x0 plugin/imx_uart.o
+ .bss           0x00000000009078b4        0x8 plugin/usdhc.o
+ .bss           0x00000000009078bc        0x0 plugin/usdhc_host.o
+ .bss           0x00000000009078bc      0x214 plugin/usdhc_mmc.o
+ .bss           0x0000000000907ad0        0x0 plugin/xprintf.o
+ .bss           0x0000000000907ad0        0x0 plugin/plugin.o
+ *(COMMON)
+                0x0000000000907ad0                . = ALIGN (0x4)
+                0x0000000000907ad0                PROVIDE (__bss_end, .)
+
+.text           0x0000000000907ae0     0x6768
+ *(.rodata)
+ .rodata        0x0000000000907ae0      0x400 plugin/crc32.o
+ .rodata        0x0000000000907ee0       0x34 plugin/ccm_pll.o
+                0x0000000000907ee0                PLL2_OUTPUT
+                0x0000000000907ef4                PLL5_OUTPUT
+                0x0000000000907ef8                PLL4_OUTPUT
+                0x0000000000907efc                PLL3_OUTPUT
+                0x0000000000907f10                PLL1_OUTPUT
+                0x0000000000907f14                . = ALIGN (0x4)
+ *(.rodata*)
+ .rodata.str1.1
+                0x0000000000907f14      0x175 plugin/plugin_main.o
+                                        0x177 (size before relaxing)
+ .rodata.str1.1
+                0x0000000000908089      0x1cc plugin/usdhc.o
+ .rodata.str1.1
+                0x0000000000908255       0x1a plugin/usdhc_host.o
+ .rodata.str1.1
+                0x000000000090826f      0x1d6 plugin/usdhc_mmc.o
+                                        0x200 (size before relaxing)
+ .rodata.str1.1
+                0x0000000000908445       0x22 plugin/xprintf.o
+                0x0000000000908468                . = ALIGN (0x4)
+ *fill*         0x0000000000908467        0x1 
+ *(.glue_7t)
+ .glue_7t       0x0000000000000000        0x0 linker stubs
+                0x0000000000908468                . = ALIGN (0x4)
+ *(.glue_7)
+ .glue_7        0x0000000000000000        0x0 linker stubs
+                0x0000000000908468                . = ALIGN (0x4)
+                0x0000000000908468                etext = .
+ *(.text)
+ .text          0x0000000000908468        0x0 plugin/plugin_entry.o
+ .text          0x0000000000908468      0x474 plugin/plugin_main.o
+                0x0000000000908468                xputc
+                0x0000000000908474                dump_mem
+                0x000000000090850c                fill_ddr_param
+                0x0000000000908748                PluginMain
+ .text          0x00000000009088dc      0x120 plugin/plugin_data.o
+                0x00000000009088dc                plugin_data_itr_init
+                0x000000000090898c                plugin_data_itr_next
+ .text          0x00000000009089fc       0x38 plugin/crc32.o
+                0x00000000009089fc                crc32
+ *fill*         0x0000000000908a34        0xc 
+ .text          0x0000000000908a40      0x140 plugin/_divsi3.o
+                0x0000000000908a40                __aeabi_idiv
+                0x0000000000908a40                __divsi3
+ .text          0x0000000000908b80       0xc8 plugin/_udivsi3.o
+                0x0000000000908b80                __udivsi3
+                0x0000000000908b80                __aeabi_uidiv
+                0x0000000000908c18                __aeabi_uidivmod
+                0x0000000000908c30                __aeabi_idivmod
+ .text          0x0000000000908c48        0x4 plugin/div0.o
+                0x0000000000908c48                __div0
+ .text          0x0000000000908c4c      0x164 plugin/cortexA9.o
+                0x0000000000908c4c                arm_set_interrupt_state
+                0x0000000000908c70                cpu_get_current
+                0x0000000000908c7c                enable_neon_fpu
+                0x0000000000908c98                disable_strict_align_check
+                0x0000000000908cac                disable_L1_cache
+                0x0000000000908ccc                get_arm_private_peripheral_base
+                0x0000000000908cd4                arm_unified_tlb_invalidate
+                0x0000000000908ce4                arm_unified_tlb_invalidate_is
+                0x0000000000908cf4                arm_branch_prediction_enable
+                0x0000000000908d04                arm_branch_prediction_disable
+                0x0000000000908d14                arm_branch_target_cache_invalidate
+                0x0000000000908d20                arm_branch_target_cache_invalidate_is
+                0x0000000000908d2c                scu_enable
+                0x0000000000908d40                scu_join_smp
+                0x0000000000908d50                scu_leave_smp
+                0x0000000000908d60                scu_get_cpus_in_smp
+                0x0000000000908d74                scu_enable_maintenance_broadcast
+                0x0000000000908d84                scu_disable_maintenance_broadcast
+                0x0000000000908d94                scu_secure_invalidate
+ .text          0x0000000000908db0      0x208 plugin/armv7_cache.o
+                0x0000000000908db0                arm_dcache_state_query
+                0x0000000000908dbc                arm_dcache_enable
+                0x0000000000908dd8                arm_dcache_disable
+                0x0000000000908dec                arm_dcache_invalidate
+                0x0000000000908e20                arm_dcache_invalidate_line
+                0x0000000000908e40                arm_dcache_invalidate_mlines
+                0x0000000000908e78                arm_dcache_flush
+                0x0000000000908eac                arm_dcache_flush_line
+                0x0000000000908ecc                arm_dcache_flush_mlines
+                0x0000000000908f04                arm_icache_state_query
+                0x0000000000908f10                arm_icache_enable
+                0x0000000000908f2c                arm_icache_disable
+                0x0000000000908f40                arm_icache_invalidate
+                0x0000000000908f50                arm_icache_invalidate_is
+                0x0000000000908f60                arm_icache_invalidate_line
+                0x0000000000908f80                arm_icache_invalidate_mlines
+ .text          0x0000000000908fb8      0x594 plugin/ccm_pll.o
+                0x0000000000908fb8                ccm_init
+                0x0000000000909048                get_main_clock
+                0x0000000000909134                get_peri_clock
+                0x00000000009091fc                ccm_ccgr_config
+                0x0000000000909214                clock_gating_config
+                0x0000000000909448                ccm_set_lpm_wakeup_source
+                0x000000000090947c                ccm_enter_low_power
+                0x00000000009094ac                ipu_hsp_clk_config
+                0x00000000009094c0                gpu_clock_config
+ .text          0x000000000090954c        0x0 plugin/hardware_modules.o
+ .text          0x000000000090954c        0xc plugin/uart_iomux_config.o
+                0x000000000090954c                uart_iomux_config
+ .text          0x0000000000909558       0x34 plugin/uart1_iomux_config.o
+                0x0000000000909558                uart1_iomux_config
+ .text          0x000000000090958c        0xc plugin/usdhc_iomux_config.o
+                0x000000000090958c                usdhc_iomux_config
+ .text          0x0000000000909598       0x6c plugin/usdhc4_iomux_config.o
+                0x0000000000909598                usdhc4_iomux_config
+ .text          0x0000000000909604       0x14 plugin/board_usdhc.o
+                0x0000000000909604                usdhc_gpio_config
+                0x0000000000909608                usdhc_card_detected
+                0x0000000000909610                usdhc_write_protected
+ .text          0x0000000000909618       0xf4 plugin/timer.o
+                0x0000000000909618                hal_delay_us
+                0x0000000000909658                system_time_init
+ .text          0x000000000090970c      0x414 plugin/epit.o
+                0x000000000090970c                epit_reload_counter
+                0x0000000000909744                epit_get_counter_value
+                0x000000000090977c                epit_set_compare_event
+                0x00000000009097b4                epit_get_compare_event
+                0x0000000000909824                epit_counter_disable
+                0x00000000009098f0                epit_counter_enable
+                0x00000000009099f0                epit_init
+ .text          0x0000000000909b20     0x10bc plugin/imx_uart.o
+                0x0000000000909b20                uart_get_reffreq
+                0x0000000000909b60                uart_putchar
+                0x0000000000909c6c                uart_getchar
+                0x0000000000909d60                uart_set_FIFO_mode
+                0x000000000090a174                uart_set_loopback_mode
+                0x000000000090a258                uart_init
+ .text          0x000000000090abdc      0xacc plugin/usdhc.o
+                0x000000000090ac38                set_card_access_mode
+                0x000000000090ac48                read_usdhc_adma_mode
+                0x000000000090ac58                read_usdhc_intr_mode
+                0x000000000090ac68                card_init
+                0x000000000090ad24                card_emmc_init
+                0x000000000090add4                card_cmd_config
+                0x000000000090ae20                card_get_cid
+                0x000000000090aea4                card_get_port
+                0x000000000090af20                card_trans_status
+                0x000000000090afd0                card_enter_trans
+                0x000000000090b06c                card_set_blklen
+                0x000000000090b0dc                card_data_read
+                0x000000000090b33c                card_data_write
+                0x000000000090b5b4                card_xfer_result
+                0x000000000090b64c                card_wait_xfer_done
+ .text          0x000000000090b6a8     0x1df0 plugin/usdhc_host.o
+                0x000000000090ba38                usdhc1_isr
+                0x000000000090ba40                usdhc2_isr
+                0x000000000090ba48                usdhc3_isr
+                0x000000000090ba50                usdhc4_isr
+                0x000000000090ba58                host_init
+                0x000000000090ba70                host_init_active
+                0x000000000090badc                host_send_cmd
+                0x000000000090c43c                host_cfg_clock
+                0x000000000090c7b4                host_set_bus_width
+                0x000000000090c824                host_reset
+                0x000000000090c950                host_read_response
+                0x000000000090cac8                host_cfg_block
+                0x000000000090cbe8                host_clear_fifo
+                0x000000000090cd04                host_setup_adma
+                0x000000000090ce34                host_data_read
+                0x000000000090d168                host_data_write
+ .text          0x000000000090d498      0x92c plugin/usdhc_mmc.o
+                0x000000000090d6cc                mmc_init
+                0x000000000090d77c                emmc_init
+                0x000000000090d91c                emmc_print_cfg_info
+                0x000000000090daa4                mmc_set_boot_bus_width
+                0x000000000090db14                mmc_set_boot_partition
+                0x000000000090dba0                mmc_set_partition_access
+                0x000000000090dc18                mmc_set_boot_ack
+                0x000000000090dc68                mmc_voltage_validation
+ .text          0x000000000090ddc4      0x35c plugin/xprintf.o
+                0x000000000090de10                vxprintf
+                0x000000000090e0f8                xprintf
+ .text          0x000000000090e120      0x128 plugin/plugin.o
+                0x000000000090e120                plugin_start
+                0x000000000090e248                . = ALIGN (0x4)
+                0x000000000090e300                . = ALIGN (0x100)
+                0x000000000090e300                _end = .
+                0x000000000090e300                PROVIDE (end, .)
+                0x000000000090e300                _end = .
+                0x000000000000cc00                . = (OCRAM_SIZE_TO_USE - STACK_SIZE)
+                0x000000000000cc00                PROVIDE (__stack_start, .)
+                0x000000000000cc00                . = __stack_start
+                0x000000000000cc00                PROVIDE (__stack_svc_start, .)
+                0x000000000000ec00                . = (. + SVC_STACK_SIZE)
+                0x000000000000ec00                . = ALIGN (0x4)
+                0x000000000000ec00                PROVIDE (__stack_svc_end, .)
+                0x000000000000ec00                PROVIDE (__stack_irq_start, .)
+                0x000000000000ed00                . = (. + IRQ_STACK_SIZE)
+                0x000000000000ed00                . = ALIGN (0x4)
+                0x000000000000ed00                PROVIDE (__stack_irq_end, .)
+                0x000000000000ed00                PROVIDE (__stack_fiq_start, .)
+                0x000000000000ee00                . = (. + FIQ_STACK_SIZE)
+                0x000000000000ee00                . = ALIGN (0x4)
+                0x000000000000ee00                PROVIDE (__stack_fiq_end, .)
+                0x000000000000ee00                PROVIDE (__stack_abt_start, .)
+                0x000000000000ef00                . = (. + ABT_STACK_SIZE)
+                0x000000000000ef00                . = ALIGN (0x4)
+                0x000000000000ef00                PROVIDE (__stack_abt_end, .)
+                0x000000000000ef00                PROVIDE (__stack_und_start, .)
+                0x000000000000f000                . = (. + UND_STACK_SIZE)
+                0x000000000000f000                . = ALIGN (0x4)
+                0x000000000000f000                PROVIDE (__stack_und_end, .)
+                0x000000000000f000                PROVIDE (__stack_end, .)
+                0x000000000000f000                STACK_ADR = .
+                0x000000000000f000                . = ALIGN (0x4)
+LOAD plugin/plugin_entry.o
+LOAD plugin/plugin_main.o
+LOAD plugin/plugin_data.o
+LOAD plugin/crc32.o
+LOAD plugin/_divsi3.o
+LOAD plugin/_udivsi3.o
+LOAD plugin/div0.o
+LOAD plugin/cortexA9.o
+LOAD plugin/armv7_cache.o
+LOAD plugin/ccm_pll.o
+LOAD plugin/hardware_modules.o
+LOAD plugin/uart_iomux_config.o
+LOAD plugin/uart1_iomux_config.o
+LOAD plugin/usdhc_iomux_config.o
+LOAD plugin/usdhc4_iomux_config.o
+LOAD plugin/board_usdhc.o
+LOAD plugin/timer.o
+LOAD plugin/epit.o
+LOAD plugin/imx_uart.o
+LOAD plugin/usdhc.o
+LOAD plugin/usdhc_host.o
+LOAD plugin/usdhc_mmc.o
+LOAD plugin/xprintf.o
+LOAD plugin/plugin.o
+OUTPUT(plugin/plugin.elf elf32-littlearm)
+
+.vfp11_veneer   0x000000000090e248        0x0 load address 0x000000000000f000
+ .vfp11_veneer  0x0000000000000000        0x0 linker stubs
+
+.v4_bx          0x000000000090e248        0x0 load address 0x000000000000f000
+ .v4_bx         0x0000000000000000        0x0 linker stubs
+
+.iplt           0x000000000090e248        0x0 load address 0x000000000000f000
+ .iplt          0x0000000000000000        0x0 plugin/plugin_entry.o
+
+.rel.dyn        0x000000000090e248        0x0 load address 0x000000000000f000
+ .rel.iplt      0x0000000000000000        0x0 plugin/plugin_entry.o
+
+.ARM.attributes
+                0x0000000000000000       0x2b
+ .ARM.attributes
+                0x0000000000000000       0x1d plugin/plugin_entry.o
+ .ARM.attributes
+                0x000000000000001d       0x2f plugin/plugin_main.o
+ .ARM.attributes
+                0x000000000000004c       0x2f plugin/plugin_data.o
+ .ARM.attributes
+                0x000000000000007b       0x2f plugin/crc32.o
+ .ARM.attributes
+                0x00000000000000aa       0x1d plugin/_divsi3.o
+ .ARM.attributes
+                0x00000000000000c7       0x1d plugin/_udivsi3.o
+ .ARM.attributes
+                0x00000000000000e4       0x2f plugin/div0.o
+ .ARM.attributes
+                0x0000000000000113       0x1d plugin/cortexA9.o
+ .ARM.attributes
+                0x0000000000000130       0x2f plugin/armv7_cache.o
+ .ARM.attributes
+                0x000000000000015f       0x2f plugin/ccm_pll.o
+ .ARM.attributes
+                0x000000000000018e       0x2f plugin/hardware_modules.o
+ .ARM.attributes
+                0x00000000000001bd       0x2f plugin/uart_iomux_config.o
+ .ARM.attributes
+                0x00000000000001ec       0x2f plugin/uart1_iomux_config.o
+ .ARM.attributes
+                0x000000000000021b       0x2f plugin/usdhc_iomux_config.o
+ .ARM.attributes
+                0x000000000000024a       0x2f plugin/usdhc4_iomux_config.o
+ .ARM.attributes
+                0x0000000000000279       0x2f plugin/board_usdhc.o
+ .ARM.attributes
+                0x00000000000002a8       0x2f plugin/timer.o
+ .ARM.attributes
+                0x00000000000002d7       0x2f plugin/epit.o
+ .ARM.attributes
+                0x0000000000000306       0x2f plugin/imx_uart.o
+ .ARM.attributes
+                0x0000000000000335       0x2f plugin/usdhc.o
+ .ARM.attributes
+                0x0000000000000364       0x2f plugin/usdhc_host.o
+ .ARM.attributes
+                0x0000000000000393       0x2f plugin/usdhc_mmc.o
+ .ARM.attributes
+                0x00000000000003c2       0x2f plugin/xprintf.o
+ .ARM.attributes
+                0x00000000000003f1       0x1d plugin/plugin.o
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 plugin/plugin_main.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000000       0x12 plugin/plugin_data.o
+ .comment       0x0000000000000000       0x12 plugin/crc32.o
+ .comment       0x0000000000000000       0x12 plugin/div0.o
+ .comment       0x0000000000000000       0x12 plugin/armv7_cache.o
+ .comment       0x0000000000000000       0x12 plugin/ccm_pll.o
+ .comment       0x0000000000000000       0x12 plugin/hardware_modules.o
+ .comment       0x0000000000000000       0x12 plugin/uart_iomux_config.o
+ .comment       0x0000000000000000       0x12 plugin/uart1_iomux_config.o
+ .comment       0x0000000000000000       0x12 plugin/usdhc_iomux_config.o
+ .comment       0x0000000000000000       0x12 plugin/usdhc4_iomux_config.o
+ .comment       0x0000000000000000       0x12 plugin/board_usdhc.o
+ .comment       0x0000000000000000       0x12 plugin/timer.o
+ .comment       0x0000000000000000       0x12 plugin/epit.o
+ .comment       0x0000000000000000       0x12 plugin/imx_uart.o
+ .comment       0x0000000000000000       0x12 plugin/usdhc.o
+ .comment       0x0000000000000000       0x12 plugin/usdhc_host.o
+ .comment       0x0000000000000000       0x12 plugin/usdhc_mmc.o
+ .comment       0x0000000000000000       0x12 plugin/xprintf.o
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/plugin_main.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/plugin_data.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/crc32.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/div0.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/armv7_cache.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/ccm_pll.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/hardware_modules.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/uart_iomux_config.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/uart1_iomux_config.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/usdhc_iomux_config.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/usdhc4_iomux_config.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/board_usdhc.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/timer.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/epit.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/imx_uart.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/usdhc.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/usdhc_host.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/usdhc_mmc.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 plugin/xprintf.o
+
+.debug_line     0x0000000000000000     0x2bac
+ .debug_line    0x0000000000000000       0x43 plugin/plugin_entry.o
+ .debug_line    0x0000000000000043      0x21c plugin/plugin_main.o
+ .debug_line    0x000000000000025f      0x151 plugin/plugin_data.o
+ .debug_line    0x00000000000003b0       0xfe plugin/crc32.o
+ .debug_line    0x00000000000004ae       0x6d plugin/_divsi3.o
+ .debug_line    0x000000000000051b       0x72 plugin/_udivsi3.o
+ .debug_line    0x000000000000058d       0x3d plugin/div0.o
+ .debug_line    0x00000000000005ca       0xaf plugin/cortexA9.o
+ .debug_line    0x0000000000000679      0x1b1 plugin/armv7_cache.o
+ .debug_line    0x000000000000082a      0x243 plugin/ccm_pll.o
+ .debug_line    0x0000000000000a6d       0xf0 plugin/hardware_modules.o
+ .debug_line    0x0000000000000b5d       0x5e plugin/uart_iomux_config.o
+ .debug_line    0x0000000000000bbb       0x91 plugin/uart1_iomux_config.o
+ .debug_line    0x0000000000000c4c       0x5f plugin/usdhc_iomux_config.o
+ .debug_line    0x0000000000000cab       0xbd plugin/usdhc4_iomux_config.o
+ .debug_line    0x0000000000000d68      0x100 plugin/board_usdhc.o
+ .debug_line    0x0000000000000e68      0x173 plugin/timer.o
+ .debug_line    0x0000000000000fdb      0x2b9 plugin/epit.o
+ .debug_line    0x0000000000001294      0x707 plugin/imx_uart.o
+ .debug_line    0x000000000000199b      0x35a plugin/usdhc.o
+ .debug_line    0x0000000000001cf5      0x97b plugin/usdhc_host.o
+ .debug_line    0x0000000000002670      0x321 plugin/usdhc_mmc.o
+ .debug_line    0x0000000000002991      0x1a8 plugin/xprintf.o
+ .debug_line    0x0000000000002b39       0x73 plugin/plugin.o
+
+.debug_info     0x0000000000000000     0xa5f2
+ .debug_info    0x0000000000000000       0x80 plugin/plugin_entry.o
+ .debug_info    0x0000000000000080      0x6bb plugin/plugin_main.o
+ .debug_info    0x000000000000073b      0x2a6 plugin/plugin_data.o
+ .debug_info    0x00000000000009e1      0x107 plugin/crc32.o
+ .debug_info    0x0000000000000ae8       0x7b plugin/_divsi3.o
+ .debug_info    0x0000000000000b63       0x7c plugin/_udivsi3.o
+ .debug_info    0x0000000000000bdf       0x37 plugin/div0.o
+ .debug_info    0x0000000000000c16       0x7c plugin/cortexA9.o
+ .debug_info    0x0000000000000c92      0x491 plugin/armv7_cache.o
+ .debug_info    0x0000000000001123     0x1b13 plugin/ccm_pll.o
+ .debug_info    0x0000000000002c36       0x72 plugin/hardware_modules.o
+ .debug_info    0x0000000000002ca8       0x9a plugin/uart_iomux_config.o
+ .debug_info    0x0000000000002d42      0x3d8 plugin/uart1_iomux_config.o
+ .debug_info    0x000000000000311a       0x9a plugin/usdhc_iomux_config.o
+ .debug_info    0x00000000000031b4      0xfae plugin/usdhc4_iomux_config.o
+ .debug_info    0x0000000000004162       0xe8 plugin/board_usdhc.o
+ .debug_info    0x000000000000424a      0x326 plugin/timer.o
+ .debug_info    0x0000000000004570      0x4c9 plugin/epit.o
+ .debug_info    0x0000000000004a39      0xcca plugin/imx_uart.o
+ .debug_info    0x0000000000005703     0x1a18 plugin/usdhc.o
+ .debug_info    0x000000000000711b     0x1c0c plugin/usdhc_host.o
+ .debug_info    0x0000000000008d27     0x11f4 plugin/usdhc_mmc.o
+ .debug_info    0x0000000000009f1b      0x656 plugin/xprintf.o
+ .debug_info    0x000000000000a571       0x81 plugin/plugin.o
+
+.debug_abbrev   0x0000000000000000     0x1e00
+ .debug_abbrev  0x0000000000000000       0x14 plugin/plugin_entry.o
+ .debug_abbrev  0x0000000000000014      0x1de plugin/plugin_main.o
+ .debug_abbrev  0x00000000000001f2      0x16e plugin/plugin_data.o
+ .debug_abbrev  0x0000000000000360       0xb6 plugin/crc32.o
+ .debug_abbrev  0x0000000000000416       0x14 plugin/_divsi3.o
+ .debug_abbrev  0x000000000000042a       0x14 plugin/_udivsi3.o
+ .debug_abbrev  0x000000000000043e       0x2c plugin/div0.o
+ .debug_abbrev  0x000000000000046a       0x14 plugin/cortexA9.o
+ .debug_abbrev  0x000000000000047e      0x134 plugin/armv7_cache.o
+ .debug_abbrev  0x00000000000005b2      0x1b4 plugin/ccm_pll.o
+ .debug_abbrev  0x0000000000000766       0x44 plugin/hardware_modules.o
+ .debug_abbrev  0x00000000000007aa       0x72 plugin/uart_iomux_config.o
+ .debug_abbrev  0x000000000000081c       0xf3 plugin/uart1_iomux_config.o
+ .debug_abbrev  0x000000000000090f       0x72 plugin/usdhc_iomux_config.o
+ .debug_abbrev  0x0000000000000981       0xf3 plugin/usdhc4_iomux_config.o
+ .debug_abbrev  0x0000000000000a74       0xa5 plugin/board_usdhc.o
+ .debug_abbrev  0x0000000000000b19      0x19f plugin/timer.o
+ .debug_abbrev  0x0000000000000cb8      0x190 plugin/epit.o
+ .debug_abbrev  0x0000000000000e48      0x21f plugin/imx_uart.o
+ .debug_abbrev  0x0000000000001067      0x3ce plugin/usdhc.o
+ .debug_abbrev  0x0000000000001435      0x3da plugin/usdhc_host.o
+ .debug_abbrev  0x000000000000180f      0x3b9 plugin/usdhc_mmc.o
+ .debug_abbrev  0x0000000000001bc8      0x224 plugin/xprintf.o
+ .debug_abbrev  0x0000000000001dec       0x14 plugin/plugin.o
+
+.debug_aranges  0x0000000000000000      0x2f8
+ .debug_aranges
+                0x0000000000000000       0x20 plugin/plugin_entry.o
+ .debug_aranges
+                0x0000000000000020       0x20 plugin/plugin_main.o
+ .debug_aranges
+                0x0000000000000040       0x20 plugin/plugin_data.o
+ .debug_aranges
+                0x0000000000000060       0x20 plugin/crc32.o
+ .debug_aranges
+                0x0000000000000080       0x20 plugin/_divsi3.o
+ .debug_aranges
+                0x00000000000000a0       0x20 plugin/_udivsi3.o
+ .debug_aranges
+                0x00000000000000c0       0x20 plugin/div0.o
+ .debug_aranges
+                0x00000000000000e0       0x20 plugin/cortexA9.o
+ .debug_aranges
+                0x0000000000000100       0x20 plugin/armv7_cache.o
+ .debug_aranges
+                0x0000000000000120       0x20 plugin/ccm_pll.o
+ .debug_aranges
+                0x0000000000000140       0x18 plugin/hardware_modules.o
+ .debug_aranges
+                0x0000000000000158       0x20 plugin/uart_iomux_config.o
+ .debug_aranges
+                0x0000000000000178       0x20 plugin/uart1_iomux_config.o
+ .debug_aranges
+                0x0000000000000198       0x20 plugin/usdhc_iomux_config.o
+ .debug_aranges
+                0x00000000000001b8       0x20 plugin/usdhc4_iomux_config.o
+ .debug_aranges
+                0x00000000000001d8       0x20 plugin/board_usdhc.o
+ .debug_aranges
+                0x00000000000001f8       0x20 plugin/timer.o
+ .debug_aranges
+                0x0000000000000218       0x20 plugin/epit.o
+ .debug_aranges
+                0x0000000000000238       0x20 plugin/imx_uart.o
+ .debug_aranges
+                0x0000000000000258       0x20 plugin/usdhc.o
+ .debug_aranges
+                0x0000000000000278       0x20 plugin/usdhc_host.o
+ .debug_aranges
+                0x0000000000000298       0x20 plugin/usdhc_mmc.o
+ .debug_aranges
+                0x00000000000002b8       0x20 plugin/xprintf.o
+ .debug_aranges
+                0x00000000000002d8       0x20 plugin/plugin.o
+
+.debug_loc      0x0000000000000000     0x3ebb
+ .debug_loc     0x0000000000000000       0xd5 plugin/plugin_main.o
+ .debug_loc     0x00000000000000d5      0x195 plugin/plugin_data.o
+ .debug_loc     0x000000000000026a       0xa9 plugin/crc32.o
+ .debug_loc     0x0000000000000313      0x52e plugin/armv7_cache.o
+ .debug_loc     0x0000000000000841      0x7a2 plugin/ccm_pll.o
+ .debug_loc     0x0000000000000fe3       0x21 plugin/uart_iomux_config.o
+ .debug_loc     0x0000000000001004       0x21 plugin/usdhc_iomux_config.o
+ .debug_loc     0x0000000000001025       0x42 plugin/board_usdhc.o
+ .debug_loc     0x0000000000001067       0x48 plugin/timer.o
+ .debug_loc     0x00000000000010af      0x3cf plugin/epit.o
+ .debug_loc     0x000000000000147e      0x856 plugin/imx_uart.o
+ .debug_loc     0x0000000000001cd4      0x788 plugin/usdhc.o
+ .debug_loc     0x000000000000245c      0xe81 plugin/usdhc_host.o
+ .debug_loc     0x00000000000032dd      0x3ce plugin/usdhc_mmc.o
+ .debug_loc     0x00000000000036ab      0x810 plugin/xprintf.o
+
+.debug_str      0x0000000000000000     0x4a07
+ .debug_str     0x0000000000000000      0x441 plugin/plugin_main.o
+                                        0x4c0 (size before relaxing)
+ .debug_str     0x0000000000000441       0xc7 plugin/plugin_data.o
+                                        0x34c (size before relaxing)
+ .debug_str     0x0000000000000508       0x19 plugin/crc32.o
+                                        0x1b3 (size before relaxing)
+ .debug_str     0x0000000000000521       0x15 plugin/div0.o
+                                        0x121 (size before relaxing)
+ .debug_str     0x0000000000000536      0x1c5 plugin/armv7_cache.o
+                                        0x34f (size before relaxing)
+ .debug_str     0x00000000000006fb      0xf82 plugin/ccm_pll.o
+                                       0x1171 (size before relaxing)
+ .debug_str     0x000000000000167d       0x2e plugin/hardware_modules.o
+                                        0x1ac (size before relaxing)
+ .debug_str     0x00000000000016ab       0x49 plugin/uart_iomux_config.o
+                                        0x1c7 (size before relaxing)
+ .debug_str     0x00000000000016f4      0x2b1 plugin/uart1_iomux_config.o
+                                        0x432 (size before relaxing)
+ .debug_str     0x00000000000019a5       0x43 plugin/usdhc_iomux_config.o
+                                        0x1ca (size before relaxing)
+ .debug_str     0x00000000000019e8      0x951 plugin/usdhc4_iomux_config.o
+                                        0xae2 (size before relaxing)
+ .debug_str     0x0000000000002339       0x51 plugin/board_usdhc.o
+                                        0x1e7 (size before relaxing)
+ .debug_str     0x000000000000238a      0x1fa plugin/timer.o
+                                        0x448 (size before relaxing)
+ .debug_str     0x0000000000002584      0x22f plugin/epit.o
+                                        0x46c (size before relaxing)
+ .debug_str     0x00000000000027b3      0x4c7 plugin/imx_uart.o
+                                        0x89c (size before relaxing)
+ .debug_str     0x0000000000002c7a     0x10a6 plugin/usdhc.o
+                                       0x134e (size before relaxing)
+ .debug_str     0x0000000000003d20      0xa8b plugin/usdhc_host.o
+                                       0x1081 (size before relaxing)
+ .debug_str     0x00000000000047ab      0x1c8 plugin/usdhc_mmc.o
+                                        0x86d (size before relaxing)
+ .debug_str     0x0000000000004973       0x94 plugin/xprintf.o
+                                        0x252 (size before relaxing)
+
+.debug_frame    0x0000000000000000      0xa1c
+ .debug_frame   0x0000000000000000       0x6c plugin/plugin_main.o
+ .debug_frame   0x000000000000006c       0x3c plugin/plugin_data.o
+ .debug_frame   0x00000000000000a8       0x20 plugin/crc32.o
+ .debug_frame   0x00000000000000c8       0x20 plugin/div0.o
+ .debug_frame   0x00000000000000e8      0x110 plugin/armv7_cache.o
+ .debug_frame   0x00000000000001f8       0xb4 plugin/ccm_pll.o
+ .debug_frame   0x00000000000002ac       0x20 plugin/uart_iomux_config.o
+ .debug_frame   0x00000000000002cc       0x20 plugin/uart1_iomux_config.o
+ .debug_frame   0x00000000000002ec       0x20 plugin/usdhc_iomux_config.o
+ .debug_frame   0x000000000000030c       0x20 plugin/usdhc4_iomux_config.o
+ .debug_frame   0x000000000000032c       0x40 plugin/board_usdhc.o
+ .debug_frame   0x000000000000036c       0x44 plugin/timer.o
+ .debug_frame   0x00000000000003b0       0x94 plugin/epit.o
+ .debug_frame   0x0000000000000444       0x94 plugin/imx_uart.o
+ .debug_frame   0x00000000000004d8      0x1c8 plugin/usdhc.o
+ .debug_frame   0x00000000000006a0      0x19c plugin/usdhc_host.o
+ .debug_frame   0x000000000000083c      0x154 plugin/usdhc_mmc.o
+ .debug_frame   0x0000000000000990       0x8c plugin/xprintf.o
+
+.debug_ranges   0x0000000000000000      0x138
+ .debug_ranges  0x0000000000000000       0x20 plugin/plugin_data.o
+ .debug_ranges  0x0000000000000020       0x18 plugin/timer.o
+ .debug_ranges  0x0000000000000038       0x58 plugin/usdhc.o
+ .debug_ranges  0x0000000000000090       0x48 plugin/usdhc_host.o
+ .debug_ranges  0x00000000000000d8       0x38 plugin/usdhc_mmc.o
+ .debug_ranges  0x0000000000000110       0x28 plugin/xprintf.o
