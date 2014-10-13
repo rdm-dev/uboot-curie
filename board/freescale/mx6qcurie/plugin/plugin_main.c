@@ -93,7 +93,7 @@ void PluginMain(void)
 	};
 
 	// access user
-	if(FAIL == mmc_set_partition_access(USDHC_INST, PA_BT2))
+	if(FAIL == mmc_set_partition_access(USDHC_INST, PA_USER))
 	{
 		xprintf("Fail to set access to user partition.\n");
 		goto CLEANUP;
