@@ -28,7 +28,7 @@
 #endif
 
 /* uncomment for PLUGIN mode support */
-/* #define CONFIG_USE_PLUGIN */
+#define CONFIG_USE_PLUGIN
 
 #define CONFIG_ARCH_MISC_INIT
 
