@@ -113,6 +113,8 @@ static void print_mmcinfo(struct mmc *mmc)
 	print_size(mmc->capacity, "\n");
 
 	printf("Bus Width: %d-bit\n", mmc->bus_width);
+
+	printf("Write Protection: %s\n", mmc_getwp(mmc) ? "Yes" : "No");
 }
 
 static int do_mmcinfo(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])

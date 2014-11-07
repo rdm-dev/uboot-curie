@@ -170,7 +170,8 @@ iomux_v3_cfg_t const usdhc3_pads[] = {
 	MX6_PAD_SD3_DAT5__USDHC3_DAT5 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_DAT6__USDHC3_DAT6 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_DAT7__USDHC3_DAT7 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_NANDF_ALE__GPIO_6_8    | MUX_PAD_CTRL(NO_PAD_CTRL), /* CD */
+	MX6_PAD_NANDF_ALE__GPIO_6_8   | MUX_PAD_CTRL(NO_PAD_CTRL), /* CD */
+	MX6_PAD_NANDF_CS2__GPIO_6_15  | MUX_PAD_CTRL(NO_PAD_CTRL), /* WP */
 };
 
 iomux_v3_cfg_t const usdhc4_pads[] = {
@@ -396,6 +397,7 @@ int mmc_get_env_devno(void)
 
 
 #define USDHC3_CD_GPIO	IMX_GPIO_NR(6, 8)
+#define USDHC3_WP_GPIO	IMX_GPIO_NR(6, 15)
 
 int board_mmc_getcd(struct mmc *mmc)
 {
@@ -408,6 +410,23 @@ int board_mmc_getcd(struct mmc *mmc)
 		break;
 	case USDHC4_BASE_ADDR:
 		ret = 1; /* eMMC/uSDHC4 is always present */
+		break;
+	}
+
+	return ret;
+}
+
+int board_mmc_getwp(struct mmc *mmc)
+{
+	struct fsl_esdhc_cfg *cfg = (struct fsl_esdhc_cfg *)mmc->priv;
+	int ret = 0;
+
+	switch(cfg->esdhc_base) {
+	case USDHC3_BASE_ADDR:
+		ret = gpio_get_value(USDHC3_WP_GPIO);
+		break;
+	case USDHC4_BASE_ADDR:
+		ret = 0;
 		break;
 	}
 
@@ -430,6 +449,7 @@ int board_mmc_init(bd_t *bis)
 			imx_iomux_v3_setup_multiple_pads(
 				usdhc3_pads, ARRAY_SIZE(usdhc3_pads));
 			gpio_direction_input(USDHC3_CD_GPIO);
+			gpio_direction_input(USDHC3_WP_GPIO);
 			usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC3_CLK);
 			break;
 		case 1:
