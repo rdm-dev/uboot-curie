@@ -69,6 +69,7 @@ void PluginMain(void)
 	xprintf("\n\ni.MX6 Plugin for Pre-Configuration\n\n");
 
 	// emmc init
+	set_card_access_mode(0, 0);
 	if(FAIL == card_emmc_init(USDHC_INST))
 	{
 		xprintf("Fail to init eMMC.\n");

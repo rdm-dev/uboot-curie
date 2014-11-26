@@ -220,8 +220,9 @@ static uint32_t mmc_get_spec_ver(uint32_t instance)
     /* Enter transfer mode */
     if (SUCCESS == card_enter_trans(instance)) {
         /* Set bus width */
-        if (mmc_set_bus_width(instance, ONE) == SUCCESS) {
-            host_set_bus_width(instance, ONE);
+        printf("Setting Bus Width to 4-bits\n");
+        if (mmc_set_bus_width(instance, FOUR) == SUCCESS) {
+            host_set_bus_width(instance, FOUR);
         }
 
         /* Read Extended CSD */
