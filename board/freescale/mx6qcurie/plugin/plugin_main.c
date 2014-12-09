@@ -100,7 +100,9 @@ void PluginMain(void)
 		goto CLEANUP;
 	};
 
+#if 0
 	dump_mem(data, 512);
+#endif
 	// decode plugin data
 	if( (ret = plugin_data_itr_init(&itr, data)) )
 	{
