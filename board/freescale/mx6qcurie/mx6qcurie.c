@@ -1144,3 +1144,12 @@ int board_ehci_power(int port, int on)
 }
 
 #endif
+
+#if defined(CONFIG_SERIAL_TAG)
+#define MX6_FUSE_BASE        0x021bc000
+void get_board_serial(struct tag_serialnr *serialnr)
+{
+	serialnr->low = readl(MX6_FUSE_BASE + 0x410);
+	serialnr->high = readl(MX6_FUSE_BASE + 0x420);
+}
+#endif
