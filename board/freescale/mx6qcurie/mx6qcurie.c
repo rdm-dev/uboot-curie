@@ -58,6 +58,10 @@
 #endif
 #endif /*CONFIG_FASTBOOT*/
 
+#ifdef CONFIG_OF_BOARD_SETUP
+#include <fdt_support.h>
+#endif
+
 DECLARE_GLOBAL_DATA_PTR;
 
 #define UART_PAD_CTRL  (PAD_CTL_PKE | PAD_CTL_PUE |            \
@@ -1151,5 +1155,18 @@ void get_board_serial(struct tag_serialnr *serialnr)
 {
 	serialnr->low = readl(MX6_FUSE_BASE + 0x410);
 	serialnr->high = readl(MX6_FUSE_BASE + 0x420);
+}
+#endif
+
+#ifdef CONFIG_OF_BOARD_SETUP
+void ft_board_setup(void *blob, bd_t *bd)
+{
+	struct tag_serialnr serialnr;
+
+	get_board_serial(&serialnr);
+
+	do_fixup_by_path_u32(blob, "/", "system-rev", get_board_rev(), 1);
+	do_fixup_by_path_u32(blob, "/", "system-serial-high", serialnr.high, 1);
+	do_fixup_by_path_u32(blob, "/", "system-serial-low", serialnr.low, 1);
 }
 #endif
