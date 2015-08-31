@@ -134,6 +134,20 @@ static void setup_iomux_enet(void)
 	gpio_set_value(IMX_GPIO_NR(1, 25), 1);
 }
 
+iomux_v3_cfg_t const reboot_wdg_pads[] = {
+	MX6_PAD_DISP0_DAT23__GPIO_5_17		| MUX_PAD_CTRL(NO_PAD_CTRL),
+};
+
+static void setup_iomux_reboot_wdg(void)
+{
+	imx_iomux_v3_setup_multiple_pads(reboot_wdg_pads, ARRAY_SIZE(reboot_wdg_pads));
+
+	/* Pull the pin to low */
+	gpio_direction_output(IMX_GPIO_NR(5, 17) , 0);
+	gpio_set_value(IMX_GPIO_NR(5, 17), 0);
+}
+
+
 iomux_v3_cfg_t const usdhc3_pads[] = {
 	MX6_PAD_SD3_CLK__SD3_CLK   | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_CMD__SD3_CMD   | MUX_PAD_CTRL(USDHC_PAD_CTRL),
@@ -1084,6 +1098,8 @@ int board_eth_init(bd_t *bis)
 int board_early_init_f(void)
 {
 	setup_iomux_uart();
+	setup_iomux_reboot_wdg();
+
 #if defined(CONFIG_VIDEO_IPUV3)
 	setup_display();
 #endif
