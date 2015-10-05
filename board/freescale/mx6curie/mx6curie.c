@@ -135,7 +135,7 @@ static void setup_iomux_enet(void)
 }
 
 iomux_v3_cfg_t const reboot_wdg_pads[] = {
-	MX6_PAD_DISP0_DAT23__GPIO_5_17		| MUX_PAD_CTRL(NO_PAD_CTRL),
+	MX6_PAD_DISP0_DAT23__GPIO5_IO17	| MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
 static void setup_iomux_reboot_wdg(void)
@@ -1283,7 +1283,7 @@ void udc_pins_setting(void)
 			ARRAY_SIZE(otg_udc_pads));
 
 	/*set daisy chain for otg_pin_id on 6q. for 6dl, this bit is reserved*/
-    mxc_iomux_set_gpr_register(1, 13, 1, 0);
+	imx_iomux_set_gpr_register(1, 13, 1, 0);
 }
 #endif /*CONFIG_IMX_UDC*/
 
@@ -1303,7 +1303,7 @@ int board_ehci_hcd_init(int port)
 			ARRAY_SIZE(usb_otg_pads));
 
 		/*set daisy chain for otg_pin_id on 6q. for 6dl, this bit is reserved*/
-		mxc_iomux_set_gpr_register(1, 13, 1, 0);
+		imx_iomux_set_gpr_register(1, 13, 1, 0);
 		break;
 	case 1:
 		imx_iomux_v3_setup_multiple_pads(usb_hc1_pads,
@@ -1332,7 +1332,7 @@ int board_ehci_power(int port, int on)
 #endif
 
 #ifdef CONFIG_OF_BOARD_SETUP
-void ft_board_setup(void *blob, bd_t *bd)
+int ft_board_setup(void *blob, bd_t *bd)
 {
 	struct tag_serialnr serialnr;
 
@@ -1341,5 +1341,7 @@ void ft_board_setup(void *blob, bd_t *bd)
 	do_fixup_by_path_u32(blob, "/", "system-rev", get_board_rev(), 1);
 	do_fixup_by_path_u32(blob, "/", "system-serial-high", serialnr.high, 1);
 	do_fixup_by_path_u32(blob, "/", "system-serial-low", serialnr.low, 1);
+
+	return(0);
 }
 #endif
