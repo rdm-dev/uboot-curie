@@ -55,6 +55,35 @@ void reset_cpu(ulong addr)
 {
 	struct watchdog_regs *wdog = (struct watchdog_regs *)WDOG1_BASE_ADDR;
 
+	/* Workaround for curie reboot issue
+	 * see linux/curie_4.1: cef5f68ac5e1fa068bfdecd20a8b0ac14c929aa9
+	 */
+
+	/* To change the bootcfg by software for curie board:
+	   1. load required bootcfg to SRC_GPR9 (0x020d8040)
+	   2. set bit 28 of SRC_GPR10 (0x020d8044)
+	   3. then reset the system
+
+	   to return to normal boot mode, clear SRC_GPR10[28] */
+	// eMMC 1-bit mode
+	do {
+#define	SRC_BASE_ADDR_BMSR1		SRC_BASE_ADDR + 0x04
+#define	SRC_BASE_ADDR_GPR9		SRC_BASE_ADDR + 0x40
+#define	SRC_BASE_ADDR_GPR10		SRC_BASE_ADDR + 0x44
+
+		u32 bmsr1 = __raw_readl(SRC_BASE_ADDR_BMSR1);
+		//u32 gpr9 = __raw_readl(SRC_BASE_ADDR_GPR9);
+		u32 gpr10 = __raw_readl(SRC_BASE_ADDR_GPR10);
+
+		if (bmsr1 == 0x4000d860) {
+			// original mode is eMMC 8-bit DDR boot
+			writel(		0x40001860,	SRC_BASE_ADDR_GPR9);
+			writel(gpr10 |	0x10000000,	SRC_BASE_ADDR_GPR10);
+		} else {
+			// original mode is SD boot, unchanged
+		}
+	} while(0);
+
 #if defined(CONFIG_MX7)
 	writew((WCR_WDE | WCR_SRS), &wdog->wcr);
 #else
